@@ -1,27 +1,21 @@
 import { getMarkdownPaths } from "@/util";
-import { GetStaticProps } from "next";
 import Link from "next/link";
+import { Container } from "@components";
 
 const Home = () => {
   const paths = getMarkdownPaths("content");
 
   return (
-    <ul>
-      {paths.map((path) => (
-        <li key={path}>
-          <Link href={path}>{path}</Link>
-        </li>
-      ))}
-    </ul>
+    <Container>
+      <ul>
+        {paths.map((path) => (
+          <li key={path}>
+            <Link href={`/book/${path}`}>{path}</Link>
+          </li>
+        ))}
+      </ul>
+    </Container>
   );
-};
-
-export const generateStaticParams = async () => {
-  const paths = getMarkdownPaths("content");
-  return {
-    paths,
-    fallback: false,
-  };
 };
 
 export default Home;
