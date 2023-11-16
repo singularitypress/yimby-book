@@ -15,8 +15,10 @@ export default () => {
   );
   return (
     <Container>
-      <h1>Geo Test</h1>
-      <Map />
+      <h1 className="animate animate__in">Geo Test</h1>
+      <div className="animate animate__in">
+        <Map />
+      </div>
     </Container>
   );
 };

@@ -111,3 +111,14 @@ td {
 img {
   @apply mx-auto my-4;
 }
+
+.animate {
+  transform: translateY(20px);
+  transition: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+  &__in {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}

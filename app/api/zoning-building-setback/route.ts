@@ -1,7 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { readFileSync } from "fs";
 
-export const GET = (req: NextApiRequest, res: NextApiResponse) => {
+export const GET = () => {
   const filePath = "data/zoning-building-setback-overlay.geojson";
   const fileContent = readFileSync(filePath, "utf-8");
   const data = JSON.parse(fileContent);
