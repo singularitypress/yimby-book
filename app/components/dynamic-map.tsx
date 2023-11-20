@@ -78,83 +78,78 @@ export const DynamicMap = ({ data }: { data: any }) => {
   });
 
   return (
-    <div className="h-96 w-full rounded-lg">
-      <MapContainer
-        className="h-96 w-full rounded-lg"
-        center={[43.6532, -79.3832]}
-        zoom={13}
-        scrollWheelZoom={false}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {data && (
-          <>
-            {data.features.map((feature: GeoJsonFeature, index: number) => {
-              const colour = colorMap[feature.properties.RMG_STRING];
-              const { coordinates } = feature.geometry;
-              const coords = coordinates as
-                | number[][][]
-                | number[][]
-                | number[];
-              if (feature.geometry.type === "Polygon") {
-                return (
-                  <Polygon
-                    key={index}
-                    pathOptions={{ color: colour }}
-                    positions={coords as any}
-                  >
-                    <Popup>
-                      {Object.entries(feature.properties).map(
-                        ([key, value]) => (
+    <MapContainer
+      style={{
+        height: 600,
+      }}
+      className="w-full rounded-lg resize-y"
+      center={[43.6532, -79.3832]}
+      zoom={13}
+      scrollWheelZoom={false}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {data && (
+        <>
+          {data.features.map((feature: GeoJsonFeature, index: number) => {
+            const colour = colorMap[feature.properties.RMG_STRING];
+            const { coordinates } = feature.geometry;
+            const coords = coordinates as number[][][] | number[][] | number[];
+            if (feature.geometry.type === "Polygon") {
+              return (
+                <Polygon
+                  key={index}
+                  pathOptions={{ color: colour }}
+                  positions={coords as any}
+                >
+                  <Popup>
+                    {Object.entries(feature.properties).map(([key, value]) => (
+                      <Fragment key={key}>
+                        <b>{key}</b>: {value}
+                        <br />
+                      </Fragment>
+                    ))}
+                  </Popup>
+                </Polygon>
+              );
+            } else if (feature.geometry.type === "MultiPolygon") {
+              return (
+                <Fragment key={index}>
+                  {(coords as number[][][]).map((polygon, index) => (
+                    <Polygon
+                      key={index}
+                      pathOptions={{ color: colour }}
+                      positions={polygon as any}
+                    >
+                      <Popup>
+                        <strong>{feature.properties.RMG_STRING}</strong>
+                        <br />
+                        {Object.entries(
+                          legend[
+                            feature.properties.RMG_STRING as keyof typeof legend
+                          ]
+                        ).map(([key, value]) => (
                           <Fragment key={key}>
-                            <b>{key}</b>: {value}
+                            <strong>{key}</strong>: {value}
                             <br />
                           </Fragment>
-                        )
-                      )}
-                    </Popup>
-                  </Polygon>
-                );
-              } else if (feature.geometry.type === "MultiPolygon") {
-                return (
-                  <Fragment key={index}>
-                    {(coords as number[][][]).map((polygon, index) => (
-                      <Polygon
-                        key={index}
-                        pathOptions={{ color: colour }}
-                        positions={polygon as any}
-                      >
-                        <Popup>
-                          <strong>{feature.properties.RMG_STRING}</strong>
-                          <br />
-                          {Object.entries(
-                            legend[
-                              feature.properties
-                                .RMG_STRING as keyof typeof legend
-                            ]
-                          ).map(([key, value]) => (
-                            <Fragment key={key}>
-                              <strong>{key}</strong>: {value}
-                              <br />
-                            </Fragment>
-                          ))}
-                        </Popup>
-                      </Polygon>
-                    ))}
-                  </Fragment>
-                );
-              }
-            })}
-          </>
-        )}
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
-    </div>
+                        ))}
+                      </Popup>
+                    </Polygon>
+                  ))}
+                </Fragment>
+              );
+            }
+          })}
+        </>
+      )}
+      <Marker position={[51.505, -0.09]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+    </MapContainer>
   );
 };
