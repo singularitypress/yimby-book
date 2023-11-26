@@ -27,14 +27,9 @@ const Page: NextPage<{ params: { slug: string[] } }> = async ({ params }) => {
   const data = await getData(params.slug.join("/") + ".md");
 
   return (
-    <>
-      <Head>
-        <title>{data.data.title}</title>
-      </Head>
-      <Container variant="article">
-        <Markdown className="markdown">{data.content}</Markdown>
-      </Container>
-    </>
+    <Container variant="article">
+      <Markdown className="markdown">{data.content}</Markdown>
+    </Container>
   );
 };
 

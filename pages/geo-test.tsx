@@ -1,7 +1,6 @@
-"use client";
-
 import { Container } from "@components";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import { useMemo } from "react";
 
 export default () => {
@@ -14,11 +13,16 @@ export default () => {
     []
   );
   return (
-    <Container>
-      <h1 className="animate animate__in">Geo Test</h1>
-      <div className="animate animate__in">
-        <Map />
-      </div>
-    </Container>
+    <>
+      <Head>
+        <title>Geo Test</title>
+      </Head>
+      <Container>
+        <h1 className="animate animate__in">Geo Test</h1>
+        <div className="animate animate__in">
+          <Map />
+        </div>
+      </Container>
+    </>
   );
 };

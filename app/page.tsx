@@ -1,6 +1,12 @@
-import { getMarkdownPaths } from "@/util";
 import Link from "next/link";
 import { Container } from "@components";
+import { getMarkdownPaths } from "@util";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Home page",
+};
 
 const Home = () => {
   const paths = getMarkdownPaths("content");
